@@ -15,14 +15,39 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
+	//where do i make lowercase
+	stringstream ss(rawWords);
+	string temp;
+	string placeholder = "";
+	set<std::string> result;
+	//try check use
+	//for every word in rawWords
+	while(ss >> temp){
+		//for every letter in the word
+		for(int i = 0; i < temp.length(); i++){
+			//if the letter wasnt a punctuation
+				if(!ispunct(temp[i]) ){
+					//add it to the placeholder
+				placeholder+=temp[i];
+		} else{
+			//when we run into a punctuation
+				if(placeholder.length() > 1){
+					//if the place holder isnt a single letter add it to result
+						result.insert(placeholder);
+				}
+				placeholder = "";
+		}
+				
+		}
+		
+		if(placeholder.length() > 1){
+				result.insert(placeholder);
+		}
+		placeholder = "";
 
+	}
 
-
-
-
-
-
-
+	return result;
 
 
 }

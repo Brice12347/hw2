@@ -1,4 +1,4 @@
-#ifndef DATASTORE_H
+s#ifndef DATASTORE_H
 #define DATASTORE_H
 #include <string>
 #include <set>
@@ -42,6 +42,7 @@ public:
      */
     virtual void dump(std::ostream& ofile) = 0;
 
+	
 
 };
 

@@ -130,6 +130,9 @@ std::string ProductBookParser::categoryID()
  */
 Product* ProductBookParser::makeProduct()
 {
+	//where am i getting the this for makeproduct
+ return new book(author_, isbn_, prodName_, price_, qty_, categoryID());
+ 
 
 
 }
@@ -137,6 +140,7 @@ Product* ProductBookParser::makeProduct()
 
 ProductClothingParser::ProductClothingParser()
 {
+
 }
 
 Product* ProductClothingParser::parseSpecificProduct(std::string category,
@@ -186,7 +190,7 @@ std::string ProductClothingParser::categoryID()
 Product* ProductClothingParser::makeProduct()
 {
 
-
+	return new clothing(size_, brand_, prodName_, price_, qty_, categoryID());
 
 }
 
@@ -246,5 +250,6 @@ std::string ProductMovieParser::categoryID()
 Product* ProductMovieParser::makeProduct()
 {
 
+		return new movie(genre_, rating_, prodName_, price_, qty_, categoryID());
 
 }

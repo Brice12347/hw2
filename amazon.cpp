@@ -100,7 +100,69 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
+            //where do i find the users
+            // do i use add username
+            else if(cmd == "VIEWCART"){
+                string name;
+                if(ss >> name){
+									//chcek if the name exists
+									if(cart.find(name) != cart.end()){
+										//print products in cart 
+										// int i = 1;
+										// for(vector<Product*>::iterator it= cart.at(name).begin(); it != cart.at(name).end(); ++it){
+										// 	cout << i << ": " << it*<<endl;
+										// 	i++;
+										// }
+										displayProducts(cart.at(name));
+									}else{
+										cout << "Invalid username" << endl;
+									}
+                }else{
+									cout << "Invalid request" << endl;
+								}
 
+            }else if(cmd == "BUYCART"){
+							string name;
+							if(ss >> name){
+								if(cart.find(name) != cart.end()){
+									for(vector<Product*>::iterator it = cart.at(name).end()-1; it >= cart.at(name).begin(); --it){
+										if(it->getQty() > 0 && (users.find(name)->getBalance() >= it->getPrice())){
+											it->subtractQty(1);
+											users.find(name)->deductAmount(it->getPrice());
+										}
+									}
+								}else{
+									cout << "Invalid username" << endl;
+								}
+							}else{
+								cout << "Invalid request" << endl;
+							}
+
+            }else if(cmd == "ADD " ){
+							string name;
+							int index;
+							if(ss >> name){
+								if(cart.find(name) != cart.end()){
+									// displayProducts(cart.at(name));
+									if(ss >> index){
+										if(index < hits.size()){
+											cart.insert(make_pair(name, hits[index-1]));
+										}else{
+											cout<< "Invalid request" << endl;
+										}
+									}else{
+										cout<< "Invalid request" << endl;
+									}
+									
+								}else{
+									cout << "Invalud username" << endl;
+								}
+								else{
+								cout<< "Invalid request" << endl;
+									}
+							}
+
+            }
 
 
 
