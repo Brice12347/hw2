@@ -19,7 +19,7 @@ std::set<std::string> parseStringToWords(string rawWords)
 	stringstream ss(rawWords);
 	string temp;
 	string placeholder = "";
-	set<std::string> result;
+	set<string> result;
 	//try check use
 	//for every word in rawWords
 	while(ss >> temp){
