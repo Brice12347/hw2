@@ -5,9 +5,10 @@
 #include <vector>
 #include "product.h"
 #include "user.h"
+#include "datastore.h"
 
 class MyDataStore: public DataStore{
-	virtual ~DataStore() { }
+	virtual ~MyDataStore();
 
     /**
      * Adds a product to the data store
