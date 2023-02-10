@@ -9,6 +9,7 @@
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -17,6 +18,8 @@ struct ProdNameSorter {
     }
 };
 void displayProducts(vector<Product*>& hits);
+
+
 
 int main(int argc, char* argv[])
 {
@@ -29,7 +32,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -106,14 +109,15 @@ int main(int argc, char* argv[])
                 string name;
                 if(ss >> name){
 									//chcek if the name exists
-									if(cart.find(name) != cart.end()){
+                                    //how do i get private data members
+									if(ds.isValidName(name)){
 										//print products in cart 
 										// int i = 1;
 										// for(vector<Product*>::iterator it= cart.at(name).begin(); it != cart.at(name).end(); ++it){
 										// 	cout << i << ": " << it*<<endl;
 										// 	i++;
 										// }
-										displayProducts(cart.at(name));
+										displayProducts(ds.getCart().at(name));
 									}else{
 										cout << "Invalid username" << endl;
 									}
@@ -124,11 +128,11 @@ int main(int argc, char* argv[])
             }else if(cmd == "BUYCART"){
 							string name;
 							if(ss >> name){
-								if(cart.find(name) != cart.end()){
-									for(vector<Product*>::iterator it = cart.at(name).end()-1; it >= cart.at(name).begin(); --it){
-										if(it->getQty() > 0 && (users.find(name)->getBalance() >= it->getPrice())){
-											it->subtractQty(1);
-											users.find(name)->deductAmount(it->getPrice());
+								if(ds.isValidName(name)){
+									for(vector<Product*>::iterator it = ds.getCart().at(name).end()-1; it >= ds.getCart().at(name).begin(); --it){
+										if((*it)->getQty() > 0 && (ds.getUsers().at(name)->getBalance() >= (*it)->getPrice())){
+											(*it)->subtractQty(1);
+											ds.getUsers().at(name)->deductAmount((*it)->getPrice());
 										}
 									}
 								}else{
@@ -142,11 +146,12 @@ int main(int argc, char* argv[])
 							string name;
 							int index;
 							if(ss >> name){
-								if(cart.find(name) != cart.end()){
+								if(ds.isValidName(name)){
 									// displayProducts(cart.at(name));
 									if(ss >> index){
 										if(index < hits.size()){
-											cart.insert(make_pair(name, hits[index-1]));
+											//ds.getCart().insert(make_pair(name, hits[index]));
+                                            ds.getCart().at(name).push_back(hits[index]);
 										}else{
 											cout<< "Invalid request" << endl;
 										}
@@ -155,11 +160,11 @@ int main(int argc, char* argv[])
 									}
 									
 								}else{
-									cout << "Invalud username" << endl;
+									cout << "Invalid username" << endl;
 								}
-								else{
+								
+							}else{
 								cout<< "Invalid request" << endl;
-									}
 							}
 
             }
