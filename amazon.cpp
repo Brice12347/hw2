@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <algorithm>
 #include "product.h"
+#include "datastore.h"
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
@@ -108,31 +109,32 @@ int main(int argc, char* argv[])
             else if(cmd == "VIEWCART"){
                 string name;
                 if(ss >> name){
-									//chcek if the name exists
-                                    //how do i get private data members
-									if(ds.isValidName(name)){
-										//print products in cart 
-										// int i = 1;
-										// for(vector<Product*>::iterator it= cart.at(name).begin(); it != cart.at(name).end(); ++it){
-										// 	cout << i << ": " << it*<<endl;
-										// 	i++;
-										// }
-										displayProducts(ds.getCart().at(name));
-									}else{
-										cout << "Invalid username" << endl;
-									}
+                    //chcek if the name exists
+                    //how do i get private data members
+                    if(ds.isValidName(name)){
+                        //print products in cart 
+                        int i = 1;
+                        for(vector<Product*>::iterator it= ds.getCart()->at(name).begin(); it != ds.getCart()->at(name).end(); ++it){
+                        	cout <<"Item "<< i << "\n" << (*it)->displayString()<<endl;
+                        	i++;
+                        }
+                        
+                    }else{
+                        cout << "Invalid username" << endl;
+                    }
                 }else{
-									cout << "Invalid request" << endl;
-								}
+                    cout << "Invalid request" << endl;
+                }
 
             }else if(cmd == "BUYCART"){
 							string name;
 							if(ss >> name){
 								if(ds.isValidName(name)){
-									for(vector<Product*>::iterator it = ds.getCart().at(name).end()-1; it >= ds.getCart().at(name).begin(); --it){
-										if((*it)->getQty() > 0 && (ds.getUsers().at(name)->getBalance() >= (*it)->getPrice())){
-											(*it)->subtractQty(1);
-											ds.getUsers().at(name)->deductAmount((*it)->getPrice());
+									for(vector<Product*>::iterator it = ds.getCart()->at(name).end()-1; it >= ds.getCart()->at(name).begin(); --it){
+										if((*it)->getQty() > 0 && (ds.balance(name) >= (*it)->getPrice())){
+												ds.buyItem(name, *it);
+											// (*it)->subtractQty(1);
+											// ds.getUsers().at(name)->deductAmount((*it)->getPrice());
 										}
 									}
 								}else{
@@ -142,16 +144,16 @@ int main(int argc, char* argv[])
 								cout << "Invalid request" << endl;
 							}
 
-            }else if(cmd == "ADD " ){
+            }else if(cmd == "ADD" ){
 							string name;
-							int index;
+							unsigned int index;
 							if(ss >> name){
 								if(ds.isValidName(name)){
-									// displayProducts(cart.at(name));
 									if(ss >> index){
-										if(index < hits.size()){
+										if(index <= hits.size()){
 											//ds.getCart().insert(make_pair(name, hits[index]));
-                                            ds.getCart().at(name).push_back(hits[index]);
+                                
+                                            ds.addToCart(name,hits[(index-1)]);
 										}else{
 											cout<< "Invalid request" << endl;
 										}
@@ -160,7 +162,7 @@ int main(int argc, char* argv[])
 									}
 									
 								}else{
-									cout << "Invalid username" << endl;
+									cout << "Invalid request" << endl;
 								}
 								
 							}else{

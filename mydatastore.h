@@ -6,16 +6,12 @@
 #include "product.h"
 #include "user.h"
 #include "datastore.h"
+#include <map>
 
-<<<<<<< HEAD
-class MyDataStore: public DataStore{
-=======
-class MyDataStore: public DataStore {
+class MyDataStore : public DataStore {
 public:
     MyDataStore();
-
->>>>>>> 374300a0fecaece9ef6ad5856662152c9fb2ada6
-	virtual ~MyDataStore();
+    ~MyDataStore();
 
     /**
      * Adds a product to the data store
@@ -38,17 +34,23 @@ public:
      * Reproduce the database file from the current Products and User values
      */
     void dump(std::ostream& ofile);
+
+
 	private:
-		map<std::string, set <Product*> >searchResults;
-		map<std::string, User*> users;
+		std::map<std::string, std::set <Product*> >searchResults;
+		std::map<std::string, User*> users;
 		//user and product*
-		map<std::string, vector<Product*> > cart;
-		vector<Product*> allProducts; 
+		std::map<std::string, std::vector<Product*> > cart;
+		std::vector<Product*> allProducts; 
+
     public:
     //use these in amazon.cpp
-        map<std::string, vector<Product*> > getCart();
-        map<std::string, User*>getUsers();
-        bool isValidName(string name);
+        std::map<std::string, std::vector<Product*> >* getCart();
+        std::map<std::string, User*>* getUsers();
+        bool isValidName(std::string name);
+        void addToCart(std::string name, Product* p);
+        void buyItem(std::string name,Product* p);
+        double balance(std::string name);
         //nevermind
         //void insertPair(string name, vector<Product*> values);
 

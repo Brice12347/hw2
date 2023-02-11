@@ -3,7 +3,7 @@ CXXFLAGS=-g -Wall -std=c++11
 # Uncomment for parser DEBUG
 #DEFS=-DDEBUG
 
-OBJS=movie.o clothing.o book.o amazon.o user.o db_parser.o product.o product_parser.o util.o
+OBJS=movie.o clothing.o book.o amazon.o user.o db_parser.o product.o product_parser.o util.o mydatastore.o
 
 all: amazon
 

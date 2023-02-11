@@ -30,7 +30,7 @@ bool movie::isMatch(std::vector<std::string>& searchTerms) const
 
 void movie::dump(std::ostream& os) const
 {
-    os << category_ << "\n" << name_ << "\n" << price_ << "\n" << genre_ << rating_ <<  endl;
+    os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n"<< genre_<< "\n" << rating_ <<  endl;
 }
 
 string movie::displayString() const{
@@ -46,7 +46,7 @@ set<std::string> movie::keywords() const{
         // for(set<string> :: iterator it = temp.begin(); it != temp.end(); ++it){
         //     result.insert(*it);
         // }
-		result.insert(genre_);
+		result.insert(convToLower(genre_));
 		return result;
 }
 
